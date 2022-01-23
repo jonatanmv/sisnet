@@ -157,7 +157,7 @@ This *sisnet* you have here is a python implementation. Includes built-in utilit
 
 - Use the sisnet package in your own program or from the python console.
 
-## sisnet.ds2dc module... Lets try it !
+## Configuration
 
 Create a folder for your application and put inside a "sisnet.conf". The most simple config file would be one like this:
 
@@ -197,13 +197,15 @@ port = port_for_prn_123
 port = port_for_prn_123
 ```
 
-Ifyou need to get credentials and connection details for your own config file, please check this website:
+If you need to get credentials and connection details for your own config file, please check this website:
 
 http://www.egnos-pro.esa.int/sisnet/contact.html
 
-Create your python application.
+## sisnet.ds2dc module... Lets try it !
 
 Here you have some code using sisnet as a point of start. Try it !
+
+Take it as a base to create your python application.
 
 ```python
 #!/usr/bin/env python
@@ -242,10 +244,10 @@ Answer = *MSG,1042,394087,53093FFC003FF0|93FE40|4140180|857B|497B97B97A7FC940*BD
 
 Answer analisys:
 
-{	'gps_week': '1042',
-	'gps_time': '394087',
-	'egnos_msg_hex_compressed': '53093FFC003FF0|93FE40|4140180|857B|497B97B97A7FC940*BD\r',
-	'egnos_msg_hex': '53093FFC003FF0000000003FE40000140180000000057BBBB97B97B97A7FC940'}
+{ 'gps_week': '1042',
+  'gps_time': '394087',
+  'egnos_msg_hex_compressed': '53093FFC003FF0|93FE40|4140180|857B|497B97B97A7FC940*BD\r',
+  'egnos_msg_hex': '53093FFC003FF0000000003FE40000140180000000057BBBB97B97B97A7FC940'}
 ```
 
 Other responses:
@@ -253,10 +255,10 @@ Other responses:
 ```console
 Received data = *MSG,1042,394088,9A127FF40|53FCBFFC0/1717BB97B80|51F44C380*9F
 
-{	'gps_week':'1042',
-	'gps_time': '394088',
-	'egnos_msg_hex_compressed': '9A127FF40|53FCBFFC0/1717BB97B80|51F44C380*9F',
-	'egnos_msg_hex': '9A127FF4000003FCBFFC0000000000000000000000017BB97B8000001F44C380'}
+{ 'gps_week':'1042',
+  'gps_time': '394088',
+  'egnos_msg_hex_compressed': '9A127FF40|53FCBFFC0/1717BB97B80|51F44C380*9F',
+  'egnos_msg_hex': '9A127FF4000003FCBFFC0000000000000000000000017BB97B8000001F44C380'}
 ```
 
 ```console
@@ -289,11 +291,22 @@ And here you have in the following table the description of the different messag
 
 <img src="images/A_MSG_format.jpg" width="80%">
 
-**Take into account that the GPS week is represented using 10 bits. So we have a range from	0 to 1023. There is a *rollover* effect here to be considered by developers.**
+**Take into account that the GPS week is represented using 10 bits. So we have a range from	0 to 1023. After this maximum value is reached, the week number "rolls over" zero. So this *rollover* effect has to be considered by developers when processing week numbers.**
 
-With the GPS starting on the 6 January 1980, the first reset of the 1024 weeks counter happened on 21 August 1999, ending the initial GPS Time Epoch. The next reset of the week counter from 1023 to zero will be on Saturday 6 April 2019, at 23:59:42 UTC (note that there is currently an 18-second gap between UTC Time and GPS Time), ending the second GPS Time Epoch.
+The GPS uses its own timescale, the "GPS time". The GPS satellites transmit the time information in two parts: The week number (number if weeks since time zero taking into account the rollover efect) and the elapsed number of seconds within that week.
+With the GPS starting (time zero) on the 6 January 1980, the first reset of the 1024 weeks counter happened on 21 August 1999, ending the initial GPS Time Epoch. The next reset of the week counter from 1023 to zero will be on Saturday 6 April 2019, at 23:59:42 UTC (note that there is currently an 18-second gap between UTC Time and GPS Time), ending the second GPS Time Epoch.
 
-For example, according official documentation in May 2006 the first rollover was already crossed. So if the UAS receives a week number of 78, this means the real week is 78+1024=1102.
+When does the rollover happen?
+
+GPS Start: January 6, 1980
+
+First rollover: Midnight of 21-22 August 1999.
+
+In May 2006 (first rollover already crossed), if the UAS receives a week number of 78, this means the real week is 78+1024=1102.
+
+Second rollover: Midnight (GPS time) of 6-7 April 2019 = 23:59:42 UTC on 6 April 2019 or 01:59:42 CEST on Sunday 7 April 2019.
+
+Third rollover: November 20, 2038
 
 (4) The SisNet Data Server determines the length of the historical archive. The *DS* (Data server) configuration determines the length of the historical archive. As a rule, the *DS* will try to make available the latest 30 messages of each type.
 

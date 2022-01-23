@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 """
 ESA DS2DC protocol is a protocol that works with text strings via TCP/IP. A client able to send and receive commands under DS2DC protocol is implemented here.
 """
@@ -7,6 +9,7 @@ __version__ = "beta.20211127"
 
 from sisnet import sinca
 
+import argparse
 import configparser
 import logging
 import os
@@ -14,7 +17,7 @@ import socket
 
 log = logging.getLogger(__name__)
 
-class client(object):
+class Client(object):
     """Class representing a client implementing the DS2DC protocol. Uses a socket connection to a Sisnet server. This connection can be used to receive Egnos messages from specific PRN."""
 
     # The UAS is the *User Application Software* and the *DS* is the Data Server.
@@ -60,9 +63,6 @@ class client(object):
 
         # The message dictionary
         self.egnos_message = { 'gps_week': 0, 'gps_time': 0, 'msg_compressed': '', 'msg_uncompressed': '' }
-
-        # The socket is created here
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # The SisNet server parameters
         config = configparser.RawConfigParser()
@@ -132,7 +132,9 @@ class client(object):
                     exit(-1)
         else:
             self.port = port
-        log.debug("config_file=%s, prn=%s, username=%s, server=%s, port=%s" % (config_file, self.prn,self.username,self.server,self.port) )
+        #log.debug("config_file=%s, prn=%s, username=%s, server=%s, port=%s" % (config_file, self.prn,self.username,self.server,self.port) )
+        log.info("Config file processed")
+        log.debug("config_file=%s, prn=%s, username=****, server=****, port=%s" % (config_file, self.prn,self.port) )
 
     def login(self, request_message='R_AUTH'):
         """ Connects to server sending a R_AUTH message agains the SisNet server according the DS2DC protocol.
@@ -161,10 +163,10 @@ class client(object):
 
         R_AUTH = self.R_MESSAGES[request_message] % (username, password)
         R_AUTH_protected = self.R_MESSAGES[request_message] % ("*****", "*****")
-        log.debug("Request: %s " % R_AUTH_protected)
 
         # Connect to DS sending AUTH message and receive the answer
         log.debug("Connecting to %s:%s ..." % (server, port))
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.s.connect( (server, port) )
             log.debug("Connected !")
@@ -173,7 +175,7 @@ class client(object):
             log.error("%s" % e)
             return -1
 
-        log.debug("Sending message %s..." % (R_AUTH_protected+CRLF).encode('utf-8'))
+        log.debug("Request: '%s'" % (R_AUTH_protected+CRLF).encode('utf-8'))
         try:
             self.s.send( (R_AUTH+CRLF).encode('utf-8') )
             data_from_DS = self.recv_until_CRLF()
@@ -206,6 +208,9 @@ class client(object):
         }
         return login_response
 
+    def logout(self):
+        self.s.close()
+
     def decode_egnos_message(self, message):
         """ Decode an egnos message received as string "*MSG,1042,394088,9A127FF40|53FCBFFC0/1717BB97B80|51F44C380*9F".
             Separate gps info from message and uses decompress function from sisnet.sinca for egnos message decompression. Returns a dictionary with the egnos msg info.
@@ -221,7 +226,7 @@ class client(object):
                          'gps_time': message[2],
                          'egnos_msg_hex_compressed': message[3],
                          'egnos_msg_hex': sinca.decompress(message[3]) }
-            log.info("Egnos message = %s" % response)
+            log.info("Message: %s" % response)
             return response
         else:
             return -1
@@ -270,4 +275,35 @@ class client(object):
     # DA:: Decompression Algorithm
 
 if __name__ == "__main__":
-    pass
+
+    # Arguments definition
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbose", help="Output log info", action="store_true")
+    parser.add_argument("-c", "--config", help="Configuration file. By default will be 'sisnet.conf'. Check more details on the documentation https://github.com/jonatanmv/sisnet#configuration")
+    parser.add_argument("-r", "--request", help="Request message to be sent to the EGNOS SisNet server")
+
+    # Parsing arguments
+    args = parser.parse_args()
+
+    if args.verbose:
+        log.setLevel(logging.DEBUG)
+    else:
+        log.setLevel(logging.INFO)
+
+    if args.config:
+        print("Config file:", args.config)
+        config_file = args.config
+    else:
+        config_file='sisnet.conf'
+
+    if args.request:
+        request = args.request
+    else:
+        request = None
+
+    # Client and request
+    if request:
+        client = Client(config_file=config_file)
+        client.login()
+        answer = client.request(request)
+        answer_decoded = client.decode_egnos_message(answer)

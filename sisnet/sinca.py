@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 """
 SINCA is The *SIsNet Compression Algorithm*, the compression algorithm used in EGNOS. Before sending EGNOS messages to the users, this compression algorithm
 is applied by the SISNeT Data Server. This module implements SINCA related functions: checksum, decode, encode. The SINCA compression algorithm frequently reduces the data size to the 25% of the original size.

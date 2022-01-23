@@ -46,15 +46,13 @@ def using_ds2dc():
         'GETMSG': False,
 
     }
-    log.debug(test_messages)
-
-    # Capturing the logger
-    log.info('Creating clients against DS...')
+    log.debug("test_messages = %s", test_messages)
 
     # SisNet Clients creation
     # You can overrride all parameters (prn,username,password,ip,port)
     # from sisnet.conf file passing them as parameters.
-    client=ds2dc.client(config_file='../../private/sisnet.conf')
+    log.info('Creating client...')
+    client=ds2dc.Client(config_file='../../private/sisnet.conf')
 
     # SisNet Clients login
     # Login with R_AUTH_WITH_RECEIVER_INIT request
@@ -144,7 +142,7 @@ if __name__ == "__main__":
     log.info('Testing SisNet Python modules ...')
 
     # Lets try sinca to decode a message
-    using_sinca()
+    #using_sinca()
 
     # Lets get some EGNOS messages
     using_ds2dc()

@@ -1,3 +1,9 @@
+[Disclaimer]
+[SisNet]
+[References]
+[Egnos messages]
+[A Python package... sisnet](#python-sisnet)
+
 # DISCLAIMER
 
 This project is part of my curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions.
@@ -33,7 +39,7 @@ Don't be lazy ... Read them all!
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS_SBAS_Message_Format_Explained
 
-# THE EGNOS MESSAGES
+# EGNOS MESSAGES
 
 SISNet provides access to the different Egnos messages through The Internet. The following table summarises the messages and their types:
 
@@ -124,7 +130,7 @@ Samples:
 |47|9A690BFDFFEF17704340F0087043821C12E077FF7FFBC1DC07A04380176693C0|
 
 
-# A PYTHON PACKAGE... sisnet
+# A PYTHON PACKAGE... sisnet <a name="python-sysnet"></a>
 
 This *sisnet* you have here is a python implementation. Includes built-in utilities that will allow you to investigate and understand better the SisNet protocol. The functionalities implemented are:
 

@@ -1,12 +1,6 @@
-[Disclaimer]
-[SisNet]
-[References]
-[Egnos messages]
-[A Python package... sisnet](#python-sisnet)
+# Disclaimer
 
-# DISCLAIMER
-
-This project is part of my curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions.
+This project is part of my curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
 All the information used to develop the ideas presented here has been extracted from public websites and documents. I will try to reference all of them. But please take into account that as the Internet is a living creature I can't garantee that all the links will work correctly. They could be removed from the corresponding servers or linked to a different resource.
 If you use ideas or code from this repository, you will do it at your own risk. In no case will the correct operation or technical support be guaranteed.
 If you detect any issue or error in what here is expossed, please feel free to contact. I'll appreciate it.
@@ -16,9 +10,11 @@ Take also into account the ESA disclaimer:
 
 http://www.egnos-pro.esa.int/sisnet/disclaimer.html
 
-# SISNET
+# Introduction to SisNet
 
-SisNet is the combination of *Satellite Navigation* messages and internet. EGNOS is the European Geostationary Navigation Overlay Service. It taket GPS signal and generates a SIS (Signal in Space) through Geostationary satellites. This Signal contains Satellite Navigation messages that allow users to improve the existing GPS data. Thanks to SISNet this signal is available also in real time via internet.
+Every satellite-based wide area augmentation system, as the European system EGNOS, provides ranging signals transmitted by GEO satellites, differential corrections on the wide area and additional parameters aimed to guarantee the integrity of the GNSS user.
+
+SisNet is the combination of those *Satellite Navigation* messages and internet. And EGNOS is the European Geostationary Navigation Overlay Service. It takes GPS signal and generates a SIS (Signal in Space) through Geostationary satellites. This Signal contains Satellite Navigation messages that allow users to improve the existing GPS data. Thanks to SISNet this signal is available also in real time via internet.
 
 In order to use connections against the SISNet server you will need a SISNet user account.
 
@@ -26,9 +22,9 @@ A SISNeT account consists of the following information:
 
 - IP address of the SISNeT Data Server
 - Port to which you connect
-- Login information (username/password)
+- User Login information (username/password)
 
-# REFERENCES
+# References
 
 Don't be lazy ... Read them all!
 
@@ -39,9 +35,13 @@ Don't be lazy ... Read them all!
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS_SBAS_Message_Format_Explained
 
-# EGNOS MESSAGES
+# EGNOS messages
 
-SISNet provides access to the different Egnos messages through The Internet. The following table summarises the messages and their types:
+SISNet provides access to the different Egnos messages through The Internet.
+
+![Egnos messages and its relations](images/Message-types-in-EGNOS.png)
+
+The following table summarises the messages and their types:
 
 **Satellite information messages**
 
@@ -130,13 +130,13 @@ Samples:
 |47|9A690BFDFFEF17704340F0087043821C12E077FF7FFBC1DC07A04380176693C0|
 
 
-# A PYTHON PACKAGE... sisnet <a name="python-sysnet"></a>
+# SisNet as a Python package
 
 This *sisnet* you have here is a python implementation. Includes built-in utilities that will allow you to investigate and understand better the SisNet protocol. The functionalities implemented are:
 
 - Sinca compression algorithm. A technical description and implementation of the SINCA compression algorithm. We need this to understand the information contained in the response messages (\*MSG).
 
-- Module for ds2dc protocol and communication with the *DS* (Data server). A technical description of DS2DC protocol, including the fundamental theory and the available DS2DC messages. This module will allow us to sent and receive messages to the *DS*.
+- Module for ds2dc protocol and communication with the *DS* (Data server). A technical description of DS2DC protocol, including the fundamental theory and the available DS2DC messages. This module will allow us to sent and receive messages to the *DS*. You can use this mode as an independient executable script or as a module for your own project.
 
 ## Install
 
@@ -163,7 +163,7 @@ This *sisnet* you have here is a python implementation. Includes built-in utilit
 
 - Use the sisnet package in your own program or from the python console.
 
-## Configuration
+## Configure
 
 Create a folder for your application and put inside a "sisnet.conf". The most simple config file would be one like this:
 
@@ -207,11 +207,32 @@ If you need to get credentials and connection details for your own config file, 
 
 http://www.egnos-pro.esa.int/sisnet/contact.html
 
-## sisnet.ds2dc module... Lets try it !
+## Using sisnet.ds2dc as a script... Lets try it !
+
+```console
+usage: ds2dc.py [-h] [-c CONFIG_FILE] [-p PRN] [-r REQUEST] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG_FILE, --config-file CONFIG_FILE
+                        Configuration file. By default will be 'sisnet.conf'.
+                        Check more details on the documentation
+                        https://github.com/jonatanmv/sisnet#configuration
+  -p PRN, --prn PRN     GEO PRN to use. By default the one configured in the
+                        sisnet.conf file.
+  -r REQUEST, --request REQUEST
+                        Request message to be sent to the EGNOS SisNet server.
+                        Available messages: MSG, GETMSG, GPS_IONO, START,
+                        STOP. Check documentacion for details.
+  -v, --verbose         Output detailed log info
+```
+
+
+## Using sisnet.ds2dc as a module... Lets try it !
 
 Here you have some code using sisnet as a point of start. Try it !
 
-Take it as a base to create your python application.
+You can use the modules as a base to create your own python application.
 
 ```python
 #!/usr/bin/env python

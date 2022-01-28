@@ -39,6 +39,12 @@ Don't be lazy ... Read them all!
 
 SISNet provides access to the different Egnos messages through The Internet.
 
+The bits of the Egnos message are organized this way:
+
+![Egnos message bits](images/Egnos-message-bits.png)
+
+There are different types of messages related as follows:
+
 ![Egnos messages and its relations](images/Message-types-in-EGNOS.png)
 
 The following table summarises the messages and their types:

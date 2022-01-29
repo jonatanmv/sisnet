@@ -43,6 +43,15 @@ The bits of the Egnos message are organized this way:
 
 ![Egnos message bits](images/Egnos-message-bits.png)
 
+Wa have:
+
+|Number of bits|Bits position|Name        |Purpose                              |
+|--------------|-------------|------------|-------------------------------------|
+|8             |0-7          |Preamble    |Frame synchronisation                |
+|6             |8-13         |Message type|Definition of message type           |
+|212           |14-225       |Data        |Integrity and Corrections data       |
+|24            |226-249      |Parity information |CRC-24Q redundancy and error checking|
+
 There are different types of messages related as follows:
 
 ![Egnos messages and its relations](images/Message-types-in-EGNOS.png)
@@ -437,6 +446,7 @@ log.info("Compressed   message = %s",msg)
 |EDAS | EGNOS Data Access Service |
 |EGNOS | European Geostationary Navigation Overlay Service ESA European Space Agency |
 |GEO | Geostationary Satellite |
+|GIC|GNSS Integrity Channel|
 |GPS | Global Positioning System |
 |IOR | Indian Ocean Region |
 |IP | Internet Protocol |
@@ -447,3 +457,4 @@ log.info("Compressed   message = %s",msg)
 |SDD | Service Definition Document |
 |SISNeT | Signal In Space through Internet |
 |TCP UAS | Transport Control Protocol User Application Software |
+|WAD|Wide Area Differential corrections|

@@ -22,13 +22,19 @@ log = logging.getLogger(__name__)
 def hex2bin(hexdata):
     """Decode hex egnos message in its bits. Reference: https://gssc.esa.int/navipedia/index.php/The_EGNOS_SBAS_Message_Format_Explained#Introduction"""
     #binarydata = bin(int(hexdata,16))[2:].zfill(252)
-    binarydata = bin(int(hexdata,16))[2:]
+    if len(hexdata) != 64:
+        log.error("Data length should be 64 bytes and current processing data is %i !", len(hexdata))
+        return -1
+    else:
+        binarydata = bin(int(hexdata,16))[2:]
 
     return binarydata
 
 def decode_egnos_data(egnos_data_hex):
     """Decode data included in the corresponding 212 bist of the full Egnos message."""
     egnos_data_bin = hex2bin(egnos_data_hex)
+    if egnos_data_bin == -1:
+        return -1
     response = { 'egnos_data_hex': egnos_data_hex,
                  'egnos_data_bin': egnos_data_bin,
                  'message_preamble': egnos_data_bin[0:8],

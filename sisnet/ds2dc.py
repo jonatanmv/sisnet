@@ -322,7 +322,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "-d", "--decode",
-        help = "Decode a Egnos message in hexadecimal. DECODE is the message to be decoded.",
+        help = "Decode the data section (212 bits) of a Egnos message in hexadecimal.",
     )
 
     parser.add_argument(

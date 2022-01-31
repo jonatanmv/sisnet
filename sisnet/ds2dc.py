@@ -5,7 +5,7 @@ ESA DS2DC protocol is a protocol that works with text strings via TCP/IP. A clie
 """
 
 __author__ = "Jonatan Morales"
-__version__ = "beta.20220128"
+__version__ = "beta.20220131"
 
 from sisnet import sinca
 
@@ -42,7 +42,7 @@ def decode_egnos_data(egnos_data_hex):
                  'message_type_int': int(egnos_data_bin[8:14],2),
                  'message_data': egnos_data_bin[14:226], # 212 bits
                  'message_parity': egnos_data_bin[226:250], # 24 bits
-                 'message_excess': egnos_data_bin[250:],
+                 #'message_excess': egnos_data_bin[250:],
 
     }
     return response
@@ -60,21 +60,25 @@ def decode_ds_message(message):
     if message[0] == "*MSG" or message[0] == "*GETMSG":
         egnos_msg_hex = sinca.decompress(message[3])
         egnos_msg_bin = hex2bin(egnos_msg_hex)
-        log.info("Message length (bits): %i", len(egnos_msg_bin))
         response = { 'gps_week': message[1],
                      'gps_time': message[2],
                      'egnos_msg_hex_compressed': message[3],
                      'egnos_msg_hex': egnos_msg_hex,
                      'egnos_msg_bin': egnos_msg_bin,
                      'message_preamble':egnos_msg_bin[0:8], # 8 bits
-                     'message_type': egnos_msg_bin[8:14], # 6 bits
-                     'message_type_int': int(egnos_msg_bin[8:14],2),
+                     'message_type_bin': egnos_msg_bin[8:14], # 6 bits
+                     'message_type': int(egnos_msg_bin[8:14],2),
                      'message_data': egnos_msg_bin[14:226], # 212 bits
+                     'message_data_decoded': {},
                      'message_parity': egnos_msg_bin[226:250], # 24 bits
-                     'message_excess': egnos_msg_bin[250:],
+                     #'message_excess': egnos_msg_bin[250:],
 
         }
-        log.debug("Answer: %s" % response)
+
+        if response['message_type'] == 1:
+            log.debug("Decoding message type 1...")
+
+        #log.debug("Answer: %s" % response)
         return response
     else:
         return -1
@@ -305,7 +309,10 @@ class Client(object):
         log.info( "Request: %s" % message )
         message_crlf = (message+CRLF).encode('utf-8')
         try:
-            self.s.send(message_crlf)
+            sent = self.s.send(message_crlf)
+            log.debug("Sent = %i bytes (includes CRLF)", sent)
+            if sent == 0:
+                raise RuntimeError("Error: Socket connection broken")
         except:
             log.error("Error: Sending message to DS failed")
             return -1
@@ -339,6 +346,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-r", "--request",
         #default = "MSG",
+        #choices = ['MSG', 'GETMSG'],
         help = """Request message to be sent to the EGNOS SisNet server.
                 Available messages: MSG, GETMSG, GPS_IONO, START, STOP.
                 Check documentacion for details."""

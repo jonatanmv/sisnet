@@ -1,7 +1,7 @@
 # Disclaimer
 
 This project is part of my curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
-All the information used to develop the ideas presented here has been extracted from public websites and documents. I will try to reference all of them. But please take into account that as the Internet is a living creature I can't garantee that all the links will work correctly. They could be removed from the corresponding servers or linked to a different resource.
+All the information used to develop the ideas presented here has been extracted from public websites, documents and applications. I will try to reference all of them. But please take into account that as the Internet is a living creature I can't garantee that all the links will work correctly. They could be removed from the corresponding servers or linked to a different resource.
 If you use ideas or code from this repository, you will do it at your own risk. In no case will the correct operation or technical support be guaranteed.
 If you detect any issue or error in what here is expossed, please feel free to contact. I'll appreciate it.
 
@@ -73,7 +73,17 @@ The following table summarises the messages and their types:
 |25 | Long term satellite error corrections |
 |28 | Clock Ephemeris Covariance Matrix message |
 
-Samples:
+**Message type 1: PRN Mask assignments**<br>
+This message has 210 ordered slots. Each one corresponds to a given satellite PRN and constellation. Each slot is one bit, meaning:
+
+* 1 = The satellite is monitored
+* 0 = The satellite is not monitored
+
+
+
+
+
+**Samples of Satellite information messages**
 
 |Type | Sample |
 |-----|--------|

@@ -26,7 +26,7 @@ A SISNeT account consists of the following information:
 
 # References
 
-Don't be lazy ... Read them all!
+Don't be lazy ... Check them all!
 
 - http://www.egnos-pro.esa.int/sisnet/index.html
 - http://www.egnos-pro.esa.int/sisnet/news3.html
@@ -34,6 +34,7 @@ Don't be lazy ... Read them all!
 - https://egnos-user-support.essp-sas.eu/new_egnos_ops/
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS
 - https://gssc.esa.int/navipedia/index.php/The_EGNOS_SBAS_Message_Format_Explained
+- https://gage.upc.edu/
 
 # EGNOS messages
 

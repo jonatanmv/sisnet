@@ -6,7 +6,7 @@ is applied by the SISNeT Data Server. This module implements SINCA related funct
 """
 
 __author__ = "Jonatan Morales"
-__version__ = "beta.20211127"
+__version__ = "0.1.beta"
 
 from textwrap import wrap
 
@@ -34,7 +34,10 @@ def checksum(msg_decompressed):
     #     bytes_str[-1] = "0"+bytes_str[-1]
     #     log.debug("bytes = %s", bytes_str)
     for byte_str in bytes_str:
-        byte = int(byte_str, 16)
+        try:
+            byte = int(byte_str, 16)
+        except:
+            return -1
         checksum=checksum ^ byte
     return checksum
 
@@ -43,6 +46,8 @@ def compress(msg):
 
     # Checkcum of received message
     msg_checksum_hex = checksum(msg)
+    if msg_checksum_hex == -1:
+        return -1
 
     # Locate at the begining of the string
     i=0
@@ -80,14 +85,24 @@ def decompress(msg_compressed_with_checksum, format='hex'):
     By default message is returned as hexadecimal, but if specified
     format='bin' then it will return it as bits.
     """
-    msg_compressed = msg_compressed_with_checksum.split('*')[0]
-    msg_checksum_str = msg_compressed_with_checksum.split('*')[1]
+    try:
+        msg_compressed = msg_compressed_with_checksum.split('*')[0]
+        msg_checksum_str = msg_compressed_with_checksum.split('*')[1]
+    except:
+        return -1
     msg_checksum_hex = int(msg_checksum_str,16)
     msg_decompressed = ''
     checksum_calculated = 0
 
+    msg_compressed_length = len(msg_compressed)
+    log.debug(msg_compressed_length)
+
+    if msg_compressed_length == 0:
+        log.error("Compressed message length is zero !")
+        return -1
+
     ignore_chars = 0
-    for i in range(0,len(msg_compressed)):
+    for i in range(0, msg_compressed_length):
         if ignore_chars:
             ignore_chars -= 1
         else:

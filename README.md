@@ -75,13 +75,15 @@ The following table summarises the messages and their types:
 
 **Message type 1: PRN Mask assignments**<br>
 This message has 210 ordered slots. Each one corresponds to a given satellite PRN and constellation. Each slot is one bit, meaning:
-
 * 1 = The satellite is monitored
 * 0 = The satellite is not monitored
 
-
-
-
+This set of *ordered* slots is called the *PRN mask*. The order is important because the order of the monitored satellites in the mask will be the order in which the corrections will be sent in other messages. Currently, the slots are assigned this way:
+* Slots 1-37: GPS satellites
+* Slots 38-61: GLONASS satellites (Glonass PRN +37)
+* Slots 62-119: Future GNSS
+* Slots 120-138: GEO/SBAS satellites
+* Slots 139-210: Future GNSS/GEO/SBAS satellites
 
 **Samples of Satellite information messages**
 

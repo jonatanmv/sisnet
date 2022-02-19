@@ -1,6 +1,6 @@
 # Disclaimer
 
-This project is part of my curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
+This project is the result of curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
 All the information used to develop the ideas presented here has been extracted from public websites, documents and applications. I will try to reference all of them. But please take into account that as the Internet is a living creature I can't garantee that all the links will work correctly. They could be removed from the corresponding servers or linked to a different resource.
 If you use ideas or code from this repository, you will do it at your own risk. In no case will the correct operation or technical support be guaranteed.
 If you detect any issue or error in what here is expossed, please feel free to contact. I'll appreciate it.
@@ -286,6 +286,34 @@ answer=prn123.request("MSG")
 prn123.decompress_egnos_message(answer)
 prn136.decompress_egnos_message(prn136.request("MSG"))
 prn123.request("GPS_IONO")
+
+```
+
+## Using sisnet.ds2dc as a standalone script ... Lets try it !
+First take a look to the script mode help:
+
+```console
+python sisnet/ds2dc.py --help
+
+usage: ds2dc.py [-h] [-c CONFIG_FILE] [-d DECODE] [-p PRN] [-r REQUEST] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG_FILE, --config-file CONFIG_FILE
+                        Configuration file. By default will be 'sisnet.conf'.
+                        Check more details on the documentation
+                        https://github.com/jonatanmv/sisnet#configuration
+  -d DECODE, --decode DECODE
+                        Decode the data section (212 bits) of a Egnos message
+                        in hexadecimal.
+  -p PRN, --prn PRN     GEO PRN to use. By default the one configured in the
+                        sisnet.conf file.
+  -r REQUEST, --request REQUEST
+                        Request message to be sent to the EGNOS SisNet server.
+                        Available messages: MSG, GETMSG, GPS_IONO, START,
+                        STOP. Check documentacion for details.
+  -v, --verbose         Output detailed log info
+
 
 ```
 

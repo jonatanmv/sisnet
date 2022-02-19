@@ -339,6 +339,11 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "-ds", "--decode-sinca",
+        help = "Decode the data section (212 bits) of a Egnos message compressed according the sinca protocol.",
+    )
+
+    parser.add_argument(
         "-p","--prn",
         help = "GEO PRN to use. By default the one configured in the sisnet.conf file.",
     )
@@ -367,10 +372,17 @@ if __name__ == "__main__":
     else:
         prn = None
 
-    # Decode message functionality
+    # Decode Egnos message functionality
     if args.decode:
-        log.info("Decoding: "+args.decode)
+        log.info("Decoding Egnos message: "+args.decode)
         message_decoded = decode_egnos_data(args.decode)
+        log.info(message_decoded)
+
+    # Decode Egnos message SINCA compressed functionality
+    if args.decode_sinca:
+        log.info("Decoding SINCA compressed Egnos message: "+args.decode_sinca)
+        message_decompressed = sinca.decompress(args.decode_sinca)
+        message_decoded = decode_egnos_data(message_decompressed)
         log.info(message_decoded)
 
     # Client creation and request

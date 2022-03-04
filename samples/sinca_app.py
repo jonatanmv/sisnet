@@ -1,7 +1,7 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-__version__ = "0.0.beta"
+__version__ = "0.1.beta"
 
 import logging
 log = logging.getLogger(__name__)
@@ -17,8 +17,8 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 
-from sinca import compress, decompress
-from sinca import __version__ as sinca_version
+from sisnet.sinca import compress, decompress
+from sisnet.sinca import __version__ as sinca_version
 
 class SincaWindow(GridLayout):
     """Main GUI Screen widgets definition"""

@@ -7,6 +7,10 @@ import logging
 log = logging.getLogger(__name__)
 
 from kivy.app import App
+from kivy.config import Config
+Config.set('graphics', 'width', '350')
+Config.set('graphics', 'height', '200')
+
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
@@ -51,11 +55,11 @@ class SincaWindow(GridLayout):
 
         # Main window grid layout
         self.cols = 1
-        self.padding = 25
-        # self.row_force_default = True,
-        # self.row_default_height = 100
-        # self.col_force_default = True,
-        # self.col_default_width = 700
+        self.padding = 0
+        self.row_force_default = True,
+        self.row_default_height = 90
+        self.col_force_default = True,
+        self.col_default_width = 700
 
         # Colors
         red = (1, 0, 0, 1)
@@ -67,12 +71,10 @@ class SincaWindow(GridLayout):
         buttons_height = 50
 
         # Secondary grids
-        self.top_grid = GridLayout(cols=1)
-        self.middle_grid_1 = GridLayout(cols=3)
-        self.middle_grid_2 = GridLayout(cols=1)
-        self.middle_grid_3 = GridLayout(cols=3)
-        self.middle_grid_4 = GridLayout(cols=1)
-        self.bottom_grid = GridLayout(cols=1)
+        self.encoded_message = GridLayout(cols=1)
+        self.encoded_buttons = GridLayout(cols=3)
+        self.decoded_message = GridLayout(cols=1)
+        self.decoded_buttons = GridLayout(cols=3)
 
         # Labels
         self.label_encoded = Label(
@@ -131,39 +133,22 @@ class SincaWindow(GridLayout):
         )
         self.button_decode.bind(on_press=self.on_press_button_decode)
 
-        # Adding the top widgets
-        self.add_widget(self.top_grid)
 
+        # Adding the encoded message and its buttons
+        self.add_widget(self.encoded_message)
+        self.encoded_message.add_widget(self.textinput_encoded)
+        self.add_widget(self.encoded_buttons)
+        self.encoded_buttons.add_widget(self.button_clear_encoded)
+        self.encoded_buttons.add_widget(self.label_encoded)
+        self.encoded_buttons.add_widget(self.button_decode)
 
-        # Adding the middle_1 widgets
-        self.add_widget(self.middle_grid_1)
-        self.middle_grid_1.add_widget(self.button_clear_encoded)
-        self.middle_grid_1.add_widget(self.label_encoded)
-        self.middle_grid_1.add_widget(self.button_decode)
-
-        # Adding the middle_2 widgets
-        self.add_widget(self.middle_grid_2)
-        self.middle_grid_2.add_widget(self.textinput_encoded)
-
-        # Adding the middle_3 widgets
-        self.add_widget(self.middle_grid_3)
-        self.middle_grid_3.add_widget(self.button_clear_decoded)
-        self.middle_grid_3.add_widget(self.label_decoded)
-        self.middle_grid_3.add_widget(self.button_encode)
-
-        # Adding the middle_4 widgets
-        self.add_widget(self.middle_grid_4)
-        self.middle_grid_4.add_widget(self.textinput_decoded)
-
-
-        # Adding the bottom widgets
-        self.add_widget(self.bottom_grid)
-
-
-
-        # Adding bottom action
-
-        self.button_decode.bind(on_press=self.on_press_button_decode)
+        # Adding the decoded message and its buttons
+        self.add_widget(self.decoded_message)
+        self.decoded_message.add_widget(self.textinput_decoded)
+        self.add_widget(self.decoded_buttons)
+        self.decoded_buttons.add_widget(self.button_clear_decoded)
+        self.decoded_buttons.add_widget(self.label_decoded)
+        self.decoded_buttons.add_widget(self.button_encode)
 
 
 class SincaApp(App):

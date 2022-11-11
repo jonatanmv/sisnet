@@ -1,12 +1,11 @@
 # Disclaimer
+This project is a collection of my own ideas and prototypes as result of curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
 
-This project is a collection of ideas and prototypes as result of curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
-All the information used to develop the ideas presented here has been extracted from public websites, documents and applications. I will try to reference all of them. But please take into account that as the Internet is a living creature I can't garantee that all the links will work correctly. They could be removed from the corresponding servers or linked to a different resource.
-If you use ideas or code from this repository, you will do it at your own risk. In no case will the correct operation or technical support be guaranteed.
-If you detect any issue or error in what here is expossed, please feel free to contact. I'll appreciate it.
+The information used to develop this work has been extracted from public available websites, documents and applications. I will try to reference all of them. But please take into account that The Internet is a living creature si I can't guarantee that all the links will work correctly. They could be removed from servers or linked to a different resource. Under no circumstance I'll be responsible for any content generated using this project. Please, don't use this project to produce illegal, harmful or offensive content.
 
-Take also into account the ESA disclaimer:
+If you decide to use ideas or code from this repository, you will do it at your own risk. In no case will the correct operation or technical support be guaranteed. Of course if you detect any issue or error in what here is exposed, please feel free to contact. I'll appreciate it.
 
+Please, take also into account the *ESA disclaimer*:
 
 http://www.egnos-pro.esa.int/sisnet/disclaimer.html
 

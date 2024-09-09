@@ -1,7 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import logging
+
+import os
+import sys
+sisnet_path = os.path.abspath('..')
+sys.path.append(sisnet_path)
 
 from sisnet import sinca
 from sisnet import ds2dc

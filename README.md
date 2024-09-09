@@ -1,5 +1,5 @@
 # Disclaimer
-This project is a collection of my own ideas and prototypes as result of curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions or even forks.
+This project is a collection of my own ideas and prototypes as result of curiosity and desire to learn and share. As part of this process I make use of Github as a repository for reference and future evolutions.
 
 The information used to develop this work has been extracted from public available websites, documents and applications. I will try to reference all of them. But please take into account that The Internet is a living creature si I can't guarantee that all the links will work correctly. They could be removed from servers or linked to a different resource. Under no circumstance I'll be responsible for any content generated using this project. Please, don't use this project to produce illegal, harmful or offensive content.
 
@@ -43,7 +43,7 @@ The bits of the Egnos message are organized this way:
 
 ![Egnos message bits](images/Egnos-message-bits.png)
 
-Wa have:
+We have:
 
 |Number of bits|Bits position|Name        |Purpose                              |
 |--------------|-------------|------------|-------------------------------------|
